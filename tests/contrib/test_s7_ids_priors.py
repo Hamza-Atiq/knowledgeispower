@@ -53,7 +53,7 @@ def test_non_accessions_return_none(raw):
     assert canonical_accession(raw) is None
 
 
-@pytest.mark.xfail(strict=True, reason="core bug: ids._UNIPROT_FULL_RE uses Unicode \\d, so non-ASCII "
+@pytest.mark.xfail(strict=True, raises=AssertionError, reason="core bug: ids._UNIPROT_FULL_RE uses Unicode \\d, so non-ASCII "
                                        "digits pass as an isoform suffix; reported to Amit")
 @pytest.mark.parametrize("raw", ["P28074-٣", "P28074-２"])
 def test_non_ascii_isoform_digits_rejected(raw):
@@ -71,7 +71,7 @@ def test_resolve_symbol_non_ascii_unresolved(q):
     assert resolve_symbol(q) == ([], "unresolved")
 
 
-@pytest.mark.xfail(strict=True, reason="core bug: ids.resolve_symbol uses str.upper(), so non-ASCII "
+@pytest.mark.xfail(strict=True, raises=AssertionError, reason="core bug: ids.resolve_symbol uses str.upper(), so non-ASCII "
                                        "'\\u0131nsr' (dotless i) silently resolves to INSR; reported to Amit")
 def test_non_ascii_lookalike_symbol_not_guessed():
     # Precondition derived in-test: the ASCII spelling *is* a current symbol.
